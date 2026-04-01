@@ -1,0 +1,187 @@
+﻿<Dimension xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ddl2="http://schemas.microsoft.com/analysisservices/2003/engine/2" xmlns:ddl2_2="http://schemas.microsoft.com/analysisservices/2003/engine/2/2" xmlns:ddl100_100="http://schemas.microsoft.com/analysisservices/2008/engine/100/100" xmlns:ddl200="http://schemas.microsoft.com/analysisservices/2010/engine/200" xmlns:ddl200_200="http://schemas.microsoft.com/analysisservices/2010/engine/200/200" xmlns:ddl300="http://schemas.microsoft.com/analysisservices/2011/engine/300" xmlns:ddl300_300="http://schemas.microsoft.com/analysisservices/2011/engine/300/300" xmlns:ddl400="http://schemas.microsoft.com/analysisservices/2012/engine/400" xmlns:ddl400_400="http://schemas.microsoft.com/analysisservices/2012/engine/400/400" xmlns:ddl500="http://schemas.microsoft.com/analysisservices/2013/engine/500" xmlns:ddl500_500="http://schemas.microsoft.com/analysisservices/2013/engine/500/500" xmlns:dwd="http://schemas.microsoft.com/DataWarehouse/Designer/1.0" dwd:design-time-name="79ea0589-f783-4018-a369-efbe0d350333" xmlns="http://schemas.microsoft.com/analysisservices/2003/engine">
+  <ID>Dim Ad</ID>
+  <Name>Dim Ad</Name>
+  <CreatedTimestamp>0001-01-01T00:00:00Z</CreatedTimestamp>
+  <LastSchemaUpdate>0001-01-01T00:00:00Z</LastSchemaUpdate>
+  <Annotations>
+    <Annotation>
+      <Name>http://schemas.microsoft.com/DataWarehouse/Designer/1.0:DiagramLayout</Name>
+    </Annotation>
+    <Annotation>
+      <Name>http://schemas.microsoft.com/DataWarehouse/Designer/1.0:ShowFriendlyNames</Name>
+      <Value>true</Value>
+    </Annotation>
+    <Annotation>
+      <Name>http://schemas.microsoft.com/DataWarehouse/Designer/1.0:ShowRelationshipNames</Name>
+      <Value>false</Value>
+    </Annotation>
+    <Annotation>
+      <Name>http://schemas.microsoft.com/DataWarehouse/Designer/1.0:UseDiagramDefaultLayout</Name>
+      <Value>true</Value>
+    </Annotation>
+    <Annotation>
+      <Name>http://schemas.microsoft.com/DataWarehouse/Designer/1.0:DiagramViewPortLeft</Name>
+      <Value>0</Value>
+    </Annotation>
+    <Annotation>
+      <Name>http://schemas.microsoft.com/DataWarehouse/Designer/1.0:DiagramViewPortTop</Name>
+      <Value>0</Value>
+    </Annotation>
+    <Annotation>
+      <Name>http://schemas.microsoft.com/DataWarehouse/Designer/1.0:DiagramBoundingLeft</Name>
+      <Value>0</Value>
+    </Annotation>
+    <Annotation>
+      <Name>http://schemas.microsoft.com/DataWarehouse/Designer/1.0:DiagramBoundingTop</Name>
+      <Value>0</Value>
+    </Annotation>
+    <Annotation>
+      <Name>http://schemas.microsoft.com/DataWarehouse/Designer/1.0:DiagramZoom</Name>
+      <Value>100</Value>
+    </Annotation>
+  </Annotations>
+  <LastProcessed>0001-01-01T00:00:00Z</LastProcessed>
+  <State>Unprocessed</State>
+  <Source xsi:type="DataSourceViewBinding" dwd:design-time-name="15d30d75-fff3-43a3-97cd-04f2cb801787">
+    <DataSourceViewID>Ad Tech DW</DataSourceViewID>
+  </Source>
+  <ErrorConfiguration dwd:design-time-name="5f6e7f0f-99b2-4a04-a180-25f97c40ec74">
+    <KeyNotFound>ReportAndStop</KeyNotFound>
+    <KeyDuplicate>ReportAndStop</KeyDuplicate>
+    <NullKeyNotAllowed>ReportAndStop</NullKeyNotAllowed>
+  </ErrorConfiguration>
+  <CurrentStorageMode>Molap</CurrentStorageMode>
+  <Attributes>
+    <Attribute dwd:design-time-name="6a76dbb4-62a8-4477-948b-03b29c7a11d4">
+      <ID>Ad Key</ID>
+      <Name>Ad Key</Name>
+      <Usage>Key</Usage>
+      <KeyColumns>
+        <KeyColumn dwd:design-time-name="e557809b-bc5e-4abb-890f-51db439d54fe">
+          <DataType>Integer</DataType>
+          <Source xsi:type="ColumnBinding" dwd:design-time-name="9f183b3e-8154-4e59-81dd-f0704d31f5aa">
+            <TableID>dbo_DimAd</TableID>
+            <ColumnID>AdKey</ColumnID>
+          </Source>
+        </KeyColumn>
+      </KeyColumns>
+      <NameColumn dwd:design-time-name="c8da8ee0-3e1f-40fd-94e0-c23627e8c7a0">
+        <DataType>WChar</DataType>
+        <Source xsi:type="ColumnBinding" dwd:design-time-name="4012c7f2-17da-4286-ad8f-8749637956da">
+          <TableID>dbo_DimAd</TableID>
+          <ColumnID>AdNK</ColumnID>
+        </Source>
+      </NameColumn>
+      <AttributeRelationships>
+        <AttributeRelationship dwd:design-time-name="0a665c76-235e-4a68-83ed-2a0fa3e57d1f">
+          <AttributeID>Ad Platform</AttributeID>
+          <Name>Ad Platform</Name>
+        </AttributeRelationship>
+        <AttributeRelationship dwd:design-time-name="11e29515-257f-4798-8d9b-b744bd2966f2">
+          <AttributeID>Ad Type</AttributeID>
+          <Name>Ad Type</Name>
+        </AttributeRelationship>
+        <AttributeRelationship dwd:design-time-name="705f30cd-180e-4d9a-bd65-cec51e9b93e0">
+          <AttributeID>Target Gender</AttributeID>
+          <Name>Target Gender</Name>
+        </AttributeRelationship>
+        <AttributeRelationship dwd:design-time-name="52fcbc81-1a9f-4418-8311-0b27ad70ef85">
+          <AttributeID>Target Age Group</AttributeID>
+          <Name>Target Age Group</Name>
+        </AttributeRelationship>
+        <AttributeRelationship dwd:design-time-name="4d3eb6e6-1d0e-4d96-91b9-57ac81ccedab">
+          <AttributeID>Target Interests</AttributeID>
+          <Name>Target Interests</Name>
+        </AttributeRelationship>
+      </AttributeRelationships>
+      <ddl200:ProcessingState>Unprocessed</ddl200:ProcessingState>
+      <ddl300:AttributeHierarchyProcessingState>Unprocessed</ddl300:AttributeHierarchyProcessingState>
+    </Attribute>
+    <Attribute dwd:design-time-name="21395121-7f73-4276-94aa-7f11e4cd9e54">
+      <ID>Ad Platform</ID>
+      <Name>Ad Platform</Name>
+      <KeyColumns>
+        <KeyColumn dwd:design-time-name="e8b496a4-0cc8-42ee-99f3-e0ddce727de5">
+          <DataType>WChar</DataType>
+          <DataSize>50</DataSize>
+          <Source xsi:type="ColumnBinding" dwd:design-time-name="b4f0b981-b2eb-4002-8c93-e6ca412e43cd">
+            <TableID>dbo_DimAd</TableID>
+            <ColumnID>AdPlatform</ColumnID>
+          </Source>
+        </KeyColumn>
+      </KeyColumns>
+      <OrderBy>Key</OrderBy>
+      <ddl200:ProcessingState>Unprocessed</ddl200:ProcessingState>
+      <ddl300:AttributeHierarchyProcessingState>Unprocessed</ddl300:AttributeHierarchyProcessingState>
+    </Attribute>
+    <Attribute dwd:design-time-name="579e8031-d69f-45c4-8aa6-8c03819b9016">
+      <ID>Ad Type</ID>
+      <Name>Ad Type</Name>
+      <KeyColumns>
+        <KeyColumn dwd:design-time-name="0c2dde9d-d1be-43df-9579-c2682ed4aec7">
+          <DataType>WChar</DataType>
+          <DataSize>50</DataSize>
+          <Source xsi:type="ColumnBinding" dwd:design-time-name="a3d5fcba-ed6c-40e7-a8a0-b3f81c96a701">
+            <TableID>dbo_DimAd</TableID>
+            <ColumnID>AdType</ColumnID>
+          </Source>
+        </KeyColumn>
+      </KeyColumns>
+      <OrderBy>Key</OrderBy>
+      <ddl200:ProcessingState>Unprocessed</ddl200:ProcessingState>
+      <ddl300:AttributeHierarchyProcessingState>Unprocessed</ddl300:AttributeHierarchyProcessingState>
+    </Attribute>
+    <Attribute dwd:design-time-name="08d6afb4-9299-401e-94e3-dea327c27afa">
+      <ID>Target Gender</ID>
+      <Name>Target Gender</Name>
+      <KeyColumns>
+        <KeyColumn dwd:design-time-name="e7d8ff26-d6e8-47d5-9a60-d0cf2b503d56">
+          <DataType>WChar</DataType>
+          <DataSize>20</DataSize>
+          <Source xsi:type="ColumnBinding" dwd:design-time-name="56517100-7854-4fa0-8c77-3deaf87aaae7">
+            <TableID>dbo_DimAd</TableID>
+            <ColumnID>TargetGender</ColumnID>
+          </Source>
+        </KeyColumn>
+      </KeyColumns>
+      <OrderBy>Key</OrderBy>
+      <ddl200:ProcessingState>Unprocessed</ddl200:ProcessingState>
+      <ddl300:AttributeHierarchyProcessingState>Unprocessed</ddl300:AttributeHierarchyProcessingState>
+    </Attribute>
+    <Attribute dwd:design-time-name="85b6ee88-d449-4877-8364-47a3bdeb147a">
+      <ID>Target Age Group</ID>
+      <Name>Target Age Group</Name>
+      <KeyColumns>
+        <KeyColumn dwd:design-time-name="3556ca48-5927-4cb6-ade4-234ed7e2aa11">
+          <DataType>WChar</DataType>
+          <DataSize>20</DataSize>
+          <Source xsi:type="ColumnBinding" dwd:design-time-name="76b8d8bf-e53a-4c2e-8cca-9772d8a407b2">
+            <TableID>dbo_DimAd</TableID>
+            <ColumnID>TargetAgeGroup</ColumnID>
+          </Source>
+        </KeyColumn>
+      </KeyColumns>
+      <OrderBy>Key</OrderBy>
+      <ddl200:ProcessingState>Unprocessed</ddl200:ProcessingState>
+      <ddl300:AttributeHierarchyProcessingState>Unprocessed</ddl300:AttributeHierarchyProcessingState>
+    </Attribute>
+    <Attribute dwd:design-time-name="4d73cbd6-f2f8-4490-bf36-fdff86889f0f">
+      <ID>Target Interests</ID>
+      <Name>Target Interests</Name>
+      <KeyColumns>
+        <KeyColumn dwd:design-time-name="4228c007-5393-489e-8dcb-fce213ee8ab2">
+          <DataType>WChar</DataType>
+          <DataSize>255</DataSize>
+          <Source xsi:type="ColumnBinding" dwd:design-time-name="f57c72d7-7962-45f7-86d6-7206bc2ce151">
+            <TableID>dbo_DimAd</TableID>
+            <ColumnID>TargetInterests</ColumnID>
+          </Source>
+        </KeyColumn>
+      </KeyColumns>
+      <OrderBy>Key</OrderBy>
+      <ddl200:ProcessingState>Unprocessed</ddl200:ProcessingState>
+      <ddl300:AttributeHierarchyProcessingState>Unprocessed</ddl300:AttributeHierarchyProcessingState>
+    </Attribute>
+  </Attributes>
+  <ddl300:ProcessingState>Unprocessed</ddl300:ProcessingState>
+</Dimension>

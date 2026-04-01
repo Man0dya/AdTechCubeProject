@@ -6,6 +6,28 @@
     <Name>AdTechCubeProject.database</Name>
     <FullPath>AdTechCubeProject.database</FullPath>
   </Database>
+  <Dimensions>
+    <ProjectItem>
+      <Name>Dim User.dim</Name>
+      <FullPath>Dim User.dim</FullPath>
+    </ProjectItem>
+    <ProjectItem>
+      <Name>Dim Ad.dim</Name>
+      <FullPath>Dim Ad.dim</FullPath>
+    </ProjectItem>
+    <ProjectItem>
+      <Name>Dim Campaign.dim</Name>
+      <FullPath>Dim Campaign.dim</FullPath>
+    </ProjectItem>
+    <ProjectItem>
+      <Name>Dim Date.dim</Name>
+      <FullPath>Dim Date.dim</FullPath>
+    </ProjectItem>
+    <ProjectItem>
+      <Name>Dim Time.dim</Name>
+      <FullPath>Dim Time.dim</FullPath>
+    </ProjectItem>
+  </Dimensions>
   <DataSources>
     <ProjectItem>
       <Name>AdTech_DW_DataSource.ds</Name>

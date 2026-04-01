@@ -1,0 +1,183 @@
+﻿<Dimension xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ddl2="http://schemas.microsoft.com/analysisservices/2003/engine/2" xmlns:ddl2_2="http://schemas.microsoft.com/analysisservices/2003/engine/2/2" xmlns:ddl100_100="http://schemas.microsoft.com/analysisservices/2008/engine/100/100" xmlns:ddl200="http://schemas.microsoft.com/analysisservices/2010/engine/200" xmlns:ddl200_200="http://schemas.microsoft.com/analysisservices/2010/engine/200/200" xmlns:ddl300="http://schemas.microsoft.com/analysisservices/2011/engine/300" xmlns:ddl300_300="http://schemas.microsoft.com/analysisservices/2011/engine/300/300" xmlns:ddl400="http://schemas.microsoft.com/analysisservices/2012/engine/400" xmlns:ddl400_400="http://schemas.microsoft.com/analysisservices/2012/engine/400/400" xmlns:ddl500="http://schemas.microsoft.com/analysisservices/2013/engine/500" xmlns:ddl500_500="http://schemas.microsoft.com/analysisservices/2013/engine/500/500" xmlns:dwd="http://schemas.microsoft.com/DataWarehouse/Designer/1.0" dwd:design-time-name="8fe3704d-8c6b-4407-bed0-dce8a87d7ca7" xmlns="http://schemas.microsoft.com/analysisservices/2003/engine">
+  <ID>Dim Campaign</ID>
+  <Name>Dim Campaign</Name>
+  <CreatedTimestamp>0001-01-01T00:00:00Z</CreatedTimestamp>
+  <LastSchemaUpdate>0001-01-01T00:00:00Z</LastSchemaUpdate>
+  <Annotations>
+    <Annotation>
+      <Name>http://schemas.microsoft.com/DataWarehouse/Designer/1.0:DiagramLayout</Name>
+    </Annotation>
+    <Annotation>
+      <Name>http://schemas.microsoft.com/DataWarehouse/Designer/1.0:ShowFriendlyNames</Name>
+      <Value>true</Value>
+    </Annotation>
+    <Annotation>
+      <Name>http://schemas.microsoft.com/DataWarehouse/Designer/1.0:ShowRelationshipNames</Name>
+      <Value>false</Value>
+    </Annotation>
+    <Annotation>
+      <Name>http://schemas.microsoft.com/DataWarehouse/Designer/1.0:UseDiagramDefaultLayout</Name>
+      <Value>true</Value>
+    </Annotation>
+    <Annotation>
+      <Name>http://schemas.microsoft.com/DataWarehouse/Designer/1.0:DiagramViewPortLeft</Name>
+      <Value>0</Value>
+    </Annotation>
+    <Annotation>
+      <Name>http://schemas.microsoft.com/DataWarehouse/Designer/1.0:DiagramViewPortTop</Name>
+      <Value>0</Value>
+    </Annotation>
+    <Annotation>
+      <Name>http://schemas.microsoft.com/DataWarehouse/Designer/1.0:DiagramBoundingLeft</Name>
+      <Value>0</Value>
+    </Annotation>
+    <Annotation>
+      <Name>http://schemas.microsoft.com/DataWarehouse/Designer/1.0:DiagramBoundingTop</Name>
+      <Value>0</Value>
+    </Annotation>
+    <Annotation>
+      <Name>http://schemas.microsoft.com/DataWarehouse/Designer/1.0:DiagramZoom</Name>
+      <Value>100</Value>
+    </Annotation>
+  </Annotations>
+  <LastProcessed>0001-01-01T00:00:00Z</LastProcessed>
+  <State>Unprocessed</State>
+  <Source xsi:type="DataSourceViewBinding" dwd:design-time-name="23edee96-c828-433e-a10f-850194a3e6c5">
+    <DataSourceViewID>Ad Tech DW</DataSourceViewID>
+  </Source>
+  <ErrorConfiguration dwd:design-time-name="888b0501-87f5-4d14-9696-428b6cf40737">
+    <KeyNotFound>ReportAndStop</KeyNotFound>
+    <KeyDuplicate>ReportAndStop</KeyDuplicate>
+    <NullKeyNotAllowed>ReportAndStop</NullKeyNotAllowed>
+  </ErrorConfiguration>
+  <CurrentStorageMode>Molap</CurrentStorageMode>
+  <Attributes>
+    <Attribute dwd:design-time-name="d62b8b48-a6b7-4986-b477-e5f6dc768cf6">
+      <ID>Campaign Key</ID>
+      <Name>Campaign Key</Name>
+      <Usage>Key</Usage>
+      <KeyColumns>
+        <KeyColumn dwd:design-time-name="06bcd8a5-05f1-433c-9c5f-ca781184d55c">
+          <DataType>Integer</DataType>
+          <Source xsi:type="ColumnBinding" dwd:design-time-name="5e4f78f1-8adc-4015-acc6-7f43c69a97e5">
+            <TableID>dbo_DimCampaign</TableID>
+            <ColumnID>CampaignKey</ColumnID>
+          </Source>
+        </KeyColumn>
+      </KeyColumns>
+      <NameColumn dwd:design-time-name="a4ab59bd-306c-4f48-a21c-c1fc6cc90db6">
+        <DataType>WChar</DataType>
+        <Source xsi:type="ColumnBinding" dwd:design-time-name="620e7976-9102-47e9-a9eb-8d8c9071ff58">
+          <TableID>dbo_DimCampaign</TableID>
+          <ColumnID>CampaignNK</ColumnID>
+        </Source>
+      </NameColumn>
+      <AttributeRelationships>
+        <AttributeRelationship dwd:design-time-name="a83ee4af-b8a2-41c6-885e-95eb744c8c78">
+          <AttributeID>Campaign Name</AttributeID>
+          <Name>Campaign Name</Name>
+        </AttributeRelationship>
+        <AttributeRelationship dwd:design-time-name="d4613932-2f8f-44cb-9959-669f90c81ecd">
+          <AttributeID>Start Date Key</AttributeID>
+          <Name>Start Date Key</Name>
+        </AttributeRelationship>
+        <AttributeRelationship dwd:design-time-name="941cfa7c-c0e5-4f59-83c4-03144ab7ba7b">
+          <AttributeID>End Date Key</AttributeID>
+          <Name>End Date Key</Name>
+        </AttributeRelationship>
+        <AttributeRelationship dwd:design-time-name="23edd159-244c-468b-8521-c8e961dec08e">
+          <AttributeID>Duration Days</AttributeID>
+          <Name>Duration Days</Name>
+        </AttributeRelationship>
+        <AttributeRelationship dwd:design-time-name="3ac869ad-d4f6-45eb-aa1a-94c45e6e73b5">
+          <AttributeID>Total Budget</AttributeID>
+          <Name>Total Budget</Name>
+        </AttributeRelationship>
+      </AttributeRelationships>
+      <ddl200:ProcessingState>Unprocessed</ddl200:ProcessingState>
+      <ddl300:AttributeHierarchyProcessingState>Unprocessed</ddl300:AttributeHierarchyProcessingState>
+    </Attribute>
+    <Attribute dwd:design-time-name="afd15d13-c315-44a4-a3d8-65e50baba51c">
+      <ID>Campaign Name</ID>
+      <Name>Campaign Name</Name>
+      <KeyColumns>
+        <KeyColumn dwd:design-time-name="78d21bfc-c1f3-4611-bb62-3789922c23e1">
+          <DataType>WChar</DataType>
+          <DataSize>150</DataSize>
+          <Source xsi:type="ColumnBinding" dwd:design-time-name="d53c47fe-12a5-4bed-89e9-b60f0d619528">
+            <TableID>dbo_DimCampaign</TableID>
+            <ColumnID>CampaignName</ColumnID>
+          </Source>
+        </KeyColumn>
+      </KeyColumns>
+      <OrderBy>Key</OrderBy>
+      <ddl200:ProcessingState>Unprocessed</ddl200:ProcessingState>
+      <ddl300:AttributeHierarchyProcessingState>Unprocessed</ddl300:AttributeHierarchyProcessingState>
+    </Attribute>
+    <Attribute dwd:design-time-name="90154406-b6ea-4913-87d5-64ef38bd1267">
+      <ID>Start Date Key</ID>
+      <Name>Start Date Key</Name>
+      <KeyColumns>
+        <KeyColumn dwd:design-time-name="72458b84-d329-41d6-a865-debf359f4082">
+          <DataType>Integer</DataType>
+          <Source xsi:type="ColumnBinding" dwd:design-time-name="41b07369-0afc-4972-85cd-6ca9f5c2ab0c">
+            <TableID>dbo_DimCampaign</TableID>
+            <ColumnID>StartDateKey</ColumnID>
+          </Source>
+        </KeyColumn>
+      </KeyColumns>
+      <OrderBy>Key</OrderBy>
+      <ddl200:ProcessingState>Unprocessed</ddl200:ProcessingState>
+      <ddl300:AttributeHierarchyProcessingState>Unprocessed</ddl300:AttributeHierarchyProcessingState>
+    </Attribute>
+    <Attribute dwd:design-time-name="1dd6e25b-bd37-4752-a718-f930d755986f">
+      <ID>End Date Key</ID>
+      <Name>End Date Key</Name>
+      <KeyColumns>
+        <KeyColumn dwd:design-time-name="ee9857d4-73a7-4704-bd0a-e34689700ea7">
+          <DataType>Integer</DataType>
+          <Source xsi:type="ColumnBinding" dwd:design-time-name="2eb08b7c-16ee-4ccf-98bd-be69b0125816">
+            <TableID>dbo_DimCampaign</TableID>
+            <ColumnID>EndDateKey</ColumnID>
+          </Source>
+        </KeyColumn>
+      </KeyColumns>
+      <OrderBy>Key</OrderBy>
+      <ddl200:ProcessingState>Unprocessed</ddl200:ProcessingState>
+      <ddl300:AttributeHierarchyProcessingState>Unprocessed</ddl300:AttributeHierarchyProcessingState>
+    </Attribute>
+    <Attribute dwd:design-time-name="19a471a8-1b92-4dc2-b337-9be3e4d88610">
+      <ID>Duration Days</ID>
+      <Name>Duration Days</Name>
+      <KeyColumns>
+        <KeyColumn dwd:design-time-name="c705ccc2-2ee1-46ba-a159-8fbba398fdf1">
+          <DataType>Integer</DataType>
+          <Source xsi:type="ColumnBinding" dwd:design-time-name="9c79eece-30cf-4253-8697-a25f36d3f258">
+            <TableID>dbo_DimCampaign</TableID>
+            <ColumnID>DurationDays</ColumnID>
+          </Source>
+        </KeyColumn>
+      </KeyColumns>
+      <OrderBy>Key</OrderBy>
+      <ddl200:ProcessingState>Unprocessed</ddl200:ProcessingState>
+      <ddl300:AttributeHierarchyProcessingState>Unprocessed</ddl300:AttributeHierarchyProcessingState>
+    </Attribute>
+    <Attribute dwd:design-time-name="6862b103-33be-4bd3-a8e9-84c455aabbb4">
+      <ID>Total Budget</ID>
+      <Name>Total Budget</Name>
+      <KeyColumns>
+        <KeyColumn dwd:design-time-name="6d033def-6889-4837-8ced-fb3382fd513a">
+          <DataType>Double</DataType>
+          <Source xsi:type="ColumnBinding" dwd:design-time-name="20f14389-c97b-45cd-96e2-7940b53f7a43">
+            <TableID>dbo_DimCampaign</TableID>
+            <ColumnID>TotalBudget</ColumnID>
+          </Source>
+        </KeyColumn>
+      </KeyColumns>
+      <OrderBy>Key</OrderBy>
+      <ddl200:ProcessingState>Unprocessed</ddl200:ProcessingState>
+      <ddl300:AttributeHierarchyProcessingState>Unprocessed</ddl300:AttributeHierarchyProcessingState>
+    </Attribute>
+  </Attributes>
+  <ddl300:ProcessingState>Unprocessed</ddl300:ProcessingState>
+</Dimension>
