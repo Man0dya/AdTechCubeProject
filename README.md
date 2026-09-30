@@ -1,119 +1,103 @@
-# AdTech Data Warehouse & ETL Pipeline (SSIS & SQL Server)
+# AdTech OLAP Analytics Cube & Business Intelligence (SSAS & Power BI)
 
-[![Platform](https://img.shields.io/badge/Platform-SQL%20Server-red.svg)](https://www.microsoft.com/sql-server)
-[![ETL](https://img.shields.io/badge/ETL-SSIS-blue.svg)](https://learn.microsoft.com/en-us/sql/integration-services/sql-server-integration-services)
-[![Architecture](https://img.shields.io/badge/Schema-Star%20Schema%20%7C%20SCD%20Type%202-green.svg)]()
-[![Fact Type](https://img.shields.io/badge/Fact-Accumulating%20Snapshot-orange.svg)]()
+[![Platform](https://img.shields.io/badge/Platform-SSAS%20MOLAP-red.svg)](https://learn.microsoft.com/en-us/analysis-services/ssas-overview)
+[![Analytics](https://img.shields.io/badge/Analytics-Excel%20%7C%20Power%20BI-yellow.svg)]()
+[![Model](https://img.shields.io/badge/Model-Multidimensional%20Cube-blue.svg)]()
+[![Operations](https://img.shields.io/badge/OLAP-Roll--up%20%7C%20Drill--down%20%7C%20Slice%20%7C%20Dice-green.svg)]()
 
-An enterprise-grade **Extract, Transform, Load (ETL)** data pipeline and **Star Schema Data Warehouse** designed for the **Digital Advertising Technology (AdTech)** domain. Built with **Microsoft SQL Server Integration Services (SSIS)** and **T-SQL**, this project integrates cross-platform advertising events, tracks user demographic changes over time using **Slowly Changing Dimensions (SCD Type 2)**, and captures end-to-end transaction lifecycles using an **Accumulating Snapshot Fact Table**.
+The **Online Analytical Processing (OLAP)** and **Business Intelligence (BI)** semantic layer of the AdTech analytics platform. Built with **Microsoft SQL Server Analysis Services (SSAS)**, this multidimensional cube pre-aggregates billions of advertising touchpoints across platforms, campaigns, and audience demographics—delivering sub-second querying for **Excel Pivot Tables** and interactive **Power BI Dashboards**.
 
 ---
 
-## Architecture Overview
+## Architectural Context
 
-The solution follows a multi-tier data warehouse architecture:
+This project serves as the analytical consumption layer directly downstream of the `AdTech_DW` Data Warehouse:
 
 ```
-[ Heterogeneous Sources ]
- ├── AdTech_SourceDB (OLTP SQL Database)
- └── Flat Files (.CSV: Users, Ad Events, Event Completions)
+[ AdTech_DW (Star Schema) ]
               │
-              ▼  (01_Load_Staging.dtsx)
-[ Staging Area: AdTech_Staging ]
- ├── StgAdEvents
- ├── StgChangedUsers
- └── StgCompletionUpdates
+              ▼
+[ SSAS Data Source View: Ad Tech DW.dsv ]
               │
-              ▼  (02_Load_DW.dtsx)
-[ Enterprise Data Warehouse: AdTech_DW ]
- ├── DimCampaign
- ├── DimAd
- ├── DimUser (SCD Type 2)
- ├── DimDate & DimTime
- └── FactAdEvent (Accumulating Snapshot Fact Table)
-              ▲
-              │  (03_Update_Accumulating_Fact.dtsx)
-[ Asynchronous Completion Updates ]
+              ▼
+[ AdTechCube Multidimensional Model (MOLAP) ]
+ ├── Dimensions: User, Ad, Campaign, Date, Time
+ └── Measure Groups: FactAdEvent (Counts, Spend, Revenue, Durations)
+              │
+       ┌──────┴────────────────────────┐
+       ▼                               ▼
+[ Excel OLAP Pivot Analysis ]    [ Power BI Service Dashboards ]
+ - Roll-up / Drill-down           - Matrix Visual (Groupings)
+ - Slice / Dice / Pivot           - Cascading Slicers & Dynamic KPIs
+                                  - Hierarchical Drill-downs
+                                  - Granular Drill-through Reports
 ```
 
 ---
 
-## Data Warehouse Schema (Star Schema)
+## Multidimensional Cube Design
 
-The dimensional model is organized as a Star Schema centered on ad interaction and conversion events:
+### Data Source & View
+* **Data Source**: OLE DB connection to `AdTech_DW` on Microsoft SQL Server.
+* **Data Source View ([Ad Tech DW.dsv](file:///c:/Users/pasin/Downloads/Database%20Project/AdTechCubeProject-master/Ad%20Tech%20DW.dsv))**: Defines foreign key relationships between `dbo.FactAdEvent` and all 5 dimension tables.
 
-### Fact Table
-* **`FactAdEvent`** (Accumulating Snapshot Fact Table):
-  * **Keys**: `FactEventKey` (PK), `EventTransactionID` (Degenerate/Natural Key), `DateKey` (FK), `TimeKey` (FK), `UserKey` (FK), `CampaignKey` (FK), `AdKey` (FK).
-  * **Metrics / Additive Measures**: `EventCount`, `ImpressionCount`, `ClickCount`, `LikeCount`, `CommentCount`, `ShareCount`, `PurchaseCount`, `AllocatedSpend`, `RevenueGenerated`.
-  * **Lifecycle Tracking Columns**:
-    * `accm_txn_create_time`: Timestamp of initial event occurrence.
-    * `accm_txn_complete_time`: Timestamp when post-click conversion/processing finalized.
-    * `txn_process_time_hours`: Elapsed lifecycle duration in hours:
-      $$\text{txn\_process\_time\_hours} = \frac{\text{DATEDIFF(MINUTE, create\_time, complete\_time)}}{60.0}$$
+### Dimensions & Attribute Hierarchies
+1. **`Dim Date`**:
+   * **Attributes**: `DateKey`, `FullDate`, `DayName`, `MonthNumber`, `MonthName`, `QuarterNumber`, `YearNumber`, `IsWeekend`.
+   * **Hierarchy**: `Calendar Hierarchy`: $\text{Year} \rightarrow \text{Quarter} \rightarrow \text{Month} \rightarrow \text{FullDate}$
+2. **`Dim Time`**:
+   * **Attributes**: `TimeKey`, `FullTime`, `HourNumber`, `MinuteNumber`, `SecondNumber`, `DayPart`.
+   * **Hierarchy**: `Time of Day Hierarchy`: $\text{DayPart (Morning/Afternoon/Evening/Night)} \rightarrow \text{Hour}$
+3. **`Dim User`**:
+   * **Attributes**: `UserKey`, `UserNK`, `UserGender`, `UserAge`, `AgeGroup`, `Country`, `Location`, `PrimaryInterest`, `AllInterests`, `IsCurrent`.
+   * Enables demographic segmentation (e.g., Country $\rightarrow$ Location $\rightarrow$ User Age Group).
+4. **`Dim Ad`**:
+   * **Attributes**: `AdKey`, `AdNK`, `AdPlatform` (Google Ads, Meta, YouTube, Display), `AdType` (Video, Carousel, Static), `TargetGender`, `TargetAgeGroup`.
+5. **`Dim Campaign`**:
+   * **Attributes**: `CampaignKey`, `CampaignNK`, `CampaignName`, `DurationDays`, `TotalBudget`.
 
-### Dimension Tables
-* **`DimUser` (Slowly Changing Dimension Type 2)**:
-  * Tracks historical user demographic and preference shifts.
-  * Columns: `UserKey` (Surrogate PK), `UserNK`, `UserGender`, `UserAge`, `AgeGroup`, `Country`, `Location`, `PrimaryInterest`, `AllInterests`, `ValidFrom`, `ValidTo`, `IsCurrent`.
-* **`DimAd`**:
-  * Attributes: `AdKey` (Surrogate PK), `AdNK`, `CampaignNK`, `AdPlatform` (Google, Meta, TikTok, etc.), `AdType` (Video, Carousel, Banner), `TargetGender`, `TargetAgeGroup`, `TargetInterests`.
-* **`DimCampaign`**:
-  * Attributes: `CampaignKey` (Surrogate PK), `CampaignNK`, `CampaignName`, `StartDateKey`, `EndDateKey`, `DurationDays`, `TotalBudget`.
-* **`DimDate` & `DimTime`** (Conformed Dimensions):
-  * Comprehensive temporal attributes enabling calendar and time-of-day analytics (`FullDate`, `DayName`, `MonthNumber`, `MonthName`, `QuarterNumber`, `YearNumber`, `IsWeekend`, `HourNumber`, `DayPart`).
-
----
-
-## ETL Pipeline Implementation (SSIS)
-
-The ETL process is implemented using **Visual Studio SQL Server Data Tools (SSDT)** across three modular SSIS packages:
-
-### 1. `01_Load_Staging.dtsx` — Ingestion & Staging
-* Extracts records from disparate data sources (Relational OLTP database + Delimited CSV files).
-* Executes `TRUNCATE TABLE` on staging tables prior to loading to maintain pipeline idempotency.
-* Ingests:
-  * `ad_events_extended.csv` $\rightarrow$ `dbo.StgAdEvents`
-  * `users_master.csv` & `users_updates.csv` $\rightarrow$ User staging
-  * `event_completion_updates.csv` $\rightarrow$ `dbo.StgCompletionUpdates`
-
-### 2. `02_Load_DW.dtsx` — Warehouse Loading & SCD Type 2
-* Enforces strict referential dependency ordering through precedence constraints:
-  1. `Truncate FactAdEvent` $\rightarrow$ `Truncate DimAd` $\rightarrow$ `Truncate DimCampaign` $\rightarrow$ `Truncate DimUser`
-  2. Loads independent dimensions: `DimCampaign` and `DimAd`.
-  3. **SCD Type 2 Engine for `DimUser`**:
-     * Ingests baseline user demographics.
-     * Uses **Conditional Split** and **Lookup** transformations to detect demographic/interest updates.
-     * **Expires active records**: Sets `ValidTo = GETDATE()` and `IsCurrent = 0` for changed users.
-     * **Inserts new record versions**: Sets `ValidFrom = GETDATE()`, `ValidTo = NULL`, and `IsCurrent = 1`.
-  4. Loads `FactAdEvent` via surrogate key lookups against dimension tables.
-
-### 3. `03_Update_Accumulating_Fact.dtsx` — Fact Accumulation
-* Executes an asynchronous batch update task to finalize multi-day transaction completions:
-  ```sql
-  UPDATE f
-  SET
-      f.accm_txn_complete_time = s.accm_txn_complete_time,
-      f.txn_process_time_hours =
-          DATEDIFF(MINUTE, f.accm_txn_create_time, s.accm_txn_complete_time) / 60.0
-  FROM dbo.FactAdEvent f
-  INNER JOIN AdTech_Staging.dbo.StgCompletionUpdates s
-      ON f.EventTransactionID = s.txn_id;
-  ```
+### Measure Groups & Calculated Metrics
+* **Base Measures** (Additive from `FactAdEvent`):
+  * `Event Count`, `Impression Count`, `Click Count`
+  * `Like Count`, `Comment Count`, `Share Count`, `Purchase Count`
+  * `Allocated Spend`, `Revenue Generated`, `Transaction Process Time (Hours)`
+* **Calculated Business KPIs**:
+  * **Click-Through Rate (CTR)**: $\frac{\text{Click Count}}{\text{Impression Count}} \times 100\%$
+  * **Conversion Rate (CVR)**: $\frac{\text{Purchase Count}}{\text{Click Count}} \times 100\%$
+  * **Cost Per Click (CPC)**: $\frac{\text{Allocated Spend}}{\text{Click Count}}$
+  * **Return on Ad Spend (ROAS)**: $\frac{\text{Revenue Generated}}{\text{Allocated Spend}}$
 
 ---
 
-## Getting Started & Execution
+## OLAP Operations Demonstration (Microsoft Excel)
 
-### Prerequisites
-* **Microsoft SQL Server** (2019/2022 recommended)
-* **SQL Server Integration Services (SSIS)** installed on the database instance
-* **Visual Studio** (2019/2022) with **SQL Server Data Tools (SSDT)** / Integration Services extension
+Connected via OLE DB / Analysis Services connection (`AdTechCubeProject`) to demonstrate core OLAP operations:
+* **Roll-up**: Aggregating conversion revenue from daily event grain up to monthly and annual campaign totals.
+* **Drill-down**: Expanding from `Quarter` down to `Month` and individual `Day` performance.
+* **Slice**: Filtering metrics to inspect a single dimension member (e.g., analyzing metrics strictly for `AdPlatform = 'Meta'`).
+* **Dice**: Subsetting the cube across multiple dimensions simultaneously (e.g., `Platform = 'Google'` AND `AgeGroup = '25-34'` AND `Year = 2025`).
+* **Pivot**: Rotating axes (e.g., swapping Campaign rows and Month columns) to view conversion distributions from new analytical perspectives.
 
-### Execution Sequence
-1. Open [`AdTech_DWBI_Assignment.sln`](file:///c:/Users/pasin/Downloads/Database%20Project/AdTech_DWBI_Assignment-master/AdTech_DWBI_Assignment.sln) in Visual Studio.
-2. Verify connection manager configurations (`CM_DW`, `CM_Staging`, flat file paths) to match your environment.
-3. Run packages in the following sequence:
-   1. `01_Load_Staging.dtsx`
-   2. `02_Load_DW.dtsx`
-   3. `03_Update_Accumulating_Fact.dtsx`
+---
+
+## Power BI Reporting Suite
+
+Published to **Power BI Service**, featuring 4 dedicated analytical reports:
+
+| Report | Purpose | Core Features & Design |
+| :--- | :--- | :--- |
+| **Report 1: Detailed Matrix Analysis** | Tabular deep-dive of marketing spend | Matrix visual displaying multi-level row groupings (Campaign $\rightarrow$ Ad Type) and column groupings (Year $\rightarrow$ Quarter) with conditional formatting on ROI. |
+| **Report 2: Dynamic Cascading Dashboard** | Cross-platform audience insights | Cascading slicers where selecting an `AdPlatform` dynamically updates available `Campaign` options; linked to donut charts, bar visuals, and KPI cards. |
+| **Report 3: Hierarchical Drill-down Report** | Time-series trend exploration | Interactive charts allowing drill-down along the Date hierarchy ($\text{Year} \rightarrow \text{Quarter} \rightarrow \text{Month}$) to pinpoint seasonal performance spikes. |
+| **Report 4: Contextual Drill-through Report** | Root-cause ad performance diagnosis | Right-click navigation from high-level campaign summary visuals into granular ad-level creative metrics, user demographic breakdowns, and processing times. |
+
+---
+
+## Setup & Deployment Guide
+
+1. Open [`AdTechCubeProject.sln`](file:///c:/Users/pasin/Downloads/Database%20Project/AdTechCubeProject-master/AdTechCubeProject.sln) in Visual Studio with SQL Server Data Tools (SSDT).
+2. Update the connection string in [`AdTech_DW_DataSource.ds`](file:///c:/Users/pasin/Downloads/Database%20Project/AdTechCubeProject-master/AdTech_DW_DataSource.ds) to target your local `AdTech_DW` SQL Server database.
+3. Configure the deployment target server (SSAS Multidimensional instance).
+4. Right-click the project and choose **Deploy**.
+5. Once deployed, right-click the database in SQL Server Management Studio (SSMS) or Visual Studio and choose **Process Database** (Full Process).
+6. Connect Microsoft Excel or Power BI Desktop using **Get Data $\rightarrow$ Analysis Services**.
